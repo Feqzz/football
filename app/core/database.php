@@ -68,7 +68,6 @@ class database
                         CREATE TABLE IF NOT EXISTS matches(
                         id INT PRIMARY KEY,
                         match_day_id INT,
-                        season INT,
                         date VARCHAR(30),
                         time VARCHAR(30),
                         home_team_id INT,
@@ -77,7 +76,6 @@ class database
                         winner INT,
                         home_team_score INT,
                         away_team_score INT,
-                        FOREIGN KEY (season) REFERENCES leagues(current_season),
                         FOREIGN KEY (match_day_id) REFERENCES matchday(id),
                         FOREIGN KEY (home_team_id) REFERENCES teams(team_id),
                         FOREIGN KEY (away_team_id) REFERENCES teams(team_id),
@@ -137,10 +135,10 @@ class database
         $match_day_id = self::get_matchday_id($b, $c);
         $query =
             "
-                INSERT IGNORE INTO matches (id, match_day_id, season, date, time, home_team_id,
+                INSERT IGNORE INTO matches (id, match_day_id, date, time, home_team_id,
                                             away_team_id, status, winner,
                                             home_team_score, away_team_score) 
-                VALUES ('$a','$match_day_id','$b','$d','$e','$f','$g', '$h', NULLIF('$i',''),NULLIF('$j',''),NULLIF('$k',''))                
+                VALUES ('$a','$match_day_id','$d','$e','$f','$g', NULLIF('$h',''), NULLIF('$i',''),NULLIF('$j',''),NULLIF('$k',''))                
             ";
         self::custom_query($query);
     }

@@ -22,7 +22,7 @@ class fixtures extends model
             "
                 SELECT matchday.match_day, matches.* FROM matches
                 LEFT JOIN matchday ON match_day_id = matchday.id
-                WHERE matchday.match_day = '$this->matchday' AND matches.season = '$this->season'
+                WHERE matchday.match_day = '$this->matchday' AND matchday.season = '$this->season'
                 ORDER BY date, time
             ";
         $resource = $this->db->resource($query);
@@ -57,12 +57,12 @@ class fixtures extends model
                 FROM user_bets
                 LEFT JOIN
                 (
-                    SELECT matchday.match_day, matches.* FROM matches
+                    SELECT matchday.match_day, matchday.season, matches.* FROM matches
                     LEFT JOIN matchday ON match_day_id = matchday.id
-                    WHERE matchday.match_day = '$this->matchday' AND matches.season = '$this->season'
+                    WHERE matchday.season = '$this->season'
                 )
                 AS m ON match_id = m.id
-                WHERE m.match_day = '$this->matchday'
+                WHERE m.match_day = '$this->matchday' AND m.season = '$this->season'
                 AND user_id = '$user_id'
             ";
         $resource = $this->db->resource($query);
